@@ -1,5 +1,5 @@
 {
-  "name": "curio-tracker",
+  "name": "curio-leaderboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
