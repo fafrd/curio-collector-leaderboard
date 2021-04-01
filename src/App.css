@@ -3,6 +3,32 @@ body {
 }
 
 .app {
-    background: linear-gradient(45deg, #f06356, #ebc08d);
+    background: #ffffff30;
+    display: flex;
+    margin: 1em auto;
+    max-width: 1024px;
 }
 
+/* LEFT */
+
+section {
+    width: 50%;
+}
+
+/* RIGHT */
+
+aside {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+aside span {
+    width: 20%;
+}
+
+aside span img {
+    width: 80%;
+    margin: 10%;
+}
