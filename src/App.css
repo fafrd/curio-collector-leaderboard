@@ -1,5 +1,7 @@
 body {
     background-color: #f06356;
+    font-family: monospace;
+    font-size: 2em;
 }
 
 .app {
@@ -18,6 +20,7 @@ section {
 /* RIGHT */
 
 aside {
+    background: #ffffff30;
     width: 50%;
     display: flex;
     flex-wrap: wrap;
