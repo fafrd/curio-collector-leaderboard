@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import './var.css'
-import Addresses from './Addresses.js'
-import Cards from './Cards.js'
+import Addresses from './Addresses.jsx'
+import Cards from './Cards.jsx'
 
 class App extends React.Component {
 
