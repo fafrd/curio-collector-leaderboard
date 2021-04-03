@@ -1,37 +1,92 @@
+html, body, #root {
+    height: 100%;
+}
+
 body {
-    background-color: #f06356;
-    font-family: monospace;
+    background-color: var(--pink);
     font-size: 2em;
 }
 
-.app {
-    background: #ffffff30;
-    display: flex;
-    margin: 1em auto;
+#root {
+    margin: 0 auto;
     max-width: 1024px;
+}
+
+.app {
+    display: flex;
+    text-align: initial;
+    font-size: 0.8em;
+    height: var(--main-height);
+}
+
+/* HEADER */
+
+.title-wrapper {
+    height: var(--title-height);
+}
+
+.title {
+    border: var(--border);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title span {
 }
 
 /* LEFT */
 
 section {
+    background: var(--white);
+    border: var(--border);
     width: 50%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+section header, section a {
+    border: var(--border);
+    padding: 0.25em;
+    background-color: initial;
+    text-decoration: none;
+}
+
+section header {
+    color: var(--white);
+    background: var(--red);
+    position: sticky;
+    top: 0;
+}
+
+section a:hover {
+    background: var(--pink);
 }
 
 /* RIGHT */
 
 aside {
-    background: #ffffff30;
+    background: var(--pink);
+    border: var(--border);
     width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+aside .card-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-aside span {
+aside .card-wrapper span {
     width: 20%;
 }
 
-aside span img {
+aside .card-wrapper span img {
     width: 80%;
     margin: 10%;
+    border: var(--border);
 }

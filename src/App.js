@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import './var.css'
 import Addresses from './Addresses.js'
 import Cards from './Cards.js'
 
@@ -74,39 +75,42 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="app">
+      <>
+        <div className="title-wrapper">
+          <header className="title">Curio Card Collections</header>
+        </div>
+        <div className="app">
 
-        <section>
-          <Addresses addrs={this.state.addresses[30]} title={30} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[29]} title={29} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[28]} title={28} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[27]} title={27} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[26]} title={26} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[25]} title={25} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[24]} title={24} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[23]} title={23} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[22]} title={22} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[21]} title={21} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[20]} title={20} callback={(e) => { this.addressCallback(e) }} />
-          {/*
-          <Addresses addrs={this.state.addresses[19]} title={19} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[18]} title={18} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[17]} title={17} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[16]} title={16} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[15]} title={15} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[14]} title={14} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[13]} title={13} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[12]} title={12} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[11]} title={11} callback={(e) => { this.addressCallback(e) }} />
-          <Addresses addrs={this.state.addresses[10]} title={10} callback={(e) => { this.addressCallback(e) }} />
-          */}
-        </section>
+          <section>
+            <Addresses addrs={this.state.addresses[30]} title={30} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[29]} title={29} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[28]} title={28} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[27]} title={27} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[26]} title={26} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[25]} title={25} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[24]} title={24} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[23]} title={23} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[22]} title={22} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[21]} title={21} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[20]} title={20} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[19]} title={19} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[18]} title={18} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[17]} title={17} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[16]} title={16} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[15]} title={15} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[14]} title={14} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[13]} title={13} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[12]} title={12} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[11]} title={11} callback={(e) => { this.addressCallback(e) }} />
+            <Addresses addrs={this.state.addresses[10]} title={10} callback={(e) => { this.addressCallback(e) }} />
+          </section>
 
-        <aside>
-          <Cards holdings={this.state.holdings}/>
-        </aside>
+          <aside>
+            <Cards holdings={this.state.holdings}/>
+          </aside>
 
-      </div>
+        </div>
+      </>
     );
   }
 }
