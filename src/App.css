@@ -187,6 +187,9 @@ aside .card-wrapper img.grayscale {
     footer {
         display: none;
     }
+    .arrow.selected {
+        display: none;
+    }
 }
 
 /* FOOTER */

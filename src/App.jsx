@@ -8,10 +8,14 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       addresses: [],
-      holdings: []
+      holdings: [],
+      ens: [],
     };
+
+    this.addrLimit = 10; // show down to 10 cards held
   }
 
   async queryGraph(endpoint, query) {
@@ -64,12 +68,56 @@ class App extends React.Component {
     return res.data.cardHolders.map(e => e.id);
   }
 
+  // Given a list of addresses, return a new array with entries set to the ENS or empty string
+  async fetchEns(accounts) {
+    console.log("fetching ens for accounts " + JSON.stringify(accounts));
+
+    let endpoint = "https://graph.wizwar.net/subgraphs/id/Qmb5arRTXt2DJCPakb8iptE5mhVwNVZR5ZZR5Sm3QhvZa8";
+    let query = `{
+        ${accounts.map(addr => {
+            return `
+                addr_${addr}: domains(where:{owner:"${addr.toLowerCase()}"}) {
+                    name
+                }
+            `;
+        })}
+    }`;
+
+    let res = await this.queryGraph(endpoint, query);
+    console.log(JSON.stringify(res));
+
+    let ens = new Array(accounts.length);
+    console.log("ens.length " + ens.length)
+
+    for (let i = 0; i < accounts.length; i++) {
+      if (res.data["addr_" + accounts[i]].length > 0) {
+        ens[i] = res.data["addr_" + accounts[i]][0].name;
+      } else {
+        ens[i] = "";
+      }
+    }
+
+    return ens;
+  }
+
   async componentDidMount() {
-    for (let i = 30; i >= 10; i--) {
+    for (let i = 30; i >= this.addrLimit; i--) {
       const top = await this.fetchTopHolders(i);
       let newAddresses = this.state.addresses;
       newAddresses[i] = top;
+
       this.setState({addresses: newAddresses});
+
+      // asynchronously kick off ENS lookup
+      (async (iter) => {
+        try {
+          const ens = await this.fetchEns(this.state.addresses[iter]);
+          let newEns = this.state.ens;
+          newEns[iter] = ens;
+
+          this.setState({ens: newEns})
+        } catch (e) { console.warn("Error when fetching ENS", e); }
+      })(i);
     }
   }
 
@@ -82,6 +130,11 @@ class App extends React.Component {
   }
 
   render() {
+    let addrs = [];
+    for (let i = 30; i >= this.addrLimit; i--) {
+      addrs.push(<Addresses addrs={this.state.addresses[i]} ens={this.state.ens[i]} selected={this.state.selected} title={i} callback={(e) => { this.addressCallback(e) }} />);
+    }
+
     return (
       <div className="app-container">
         <div className="title-wrapper">
@@ -90,27 +143,7 @@ class App extends React.Component {
         <div className="app">
 
           <section>
-            <Addresses addrs={this.state.addresses[30]} selected={this.state.selected} title={30} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[29]} selected={this.state.selected} title={29} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[28]} selected={this.state.selected} title={28} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[27]} selected={this.state.selected} title={27} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[26]} selected={this.state.selected} title={26} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[25]} selected={this.state.selected} title={25} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[24]} selected={this.state.selected} title={24} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[23]} selected={this.state.selected} title={23} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[22]} selected={this.state.selected} title={22} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[21]} selected={this.state.selected} title={21} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[20]} selected={this.state.selected} title={20} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[19]} selected={this.state.selected} title={19} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[18]} selected={this.state.selected} title={18} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[17]} selected={this.state.selected} title={17} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[16]} selected={this.state.selected} title={16} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[15]} selected={this.state.selected} title={15} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[14]} selected={this.state.selected} title={14} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[13]} selected={this.state.selected} title={13} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[12]} selected={this.state.selected} title={12} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[11]} selected={this.state.selected} title={11} callback={(e) => { this.addressCallback(e) }} />
-            <Addresses addrs={this.state.addresses[10]} selected={this.state.selected} title={10} callback={(e) => { this.addressCallback(e) }} />
+            {addrs}
           </section>
 
           <aside>

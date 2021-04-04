@@ -11,9 +11,17 @@ class Addresses extends React.Component {
         if (this.props.selected == this.props.addrs[i]) {
           selected = "selected";
         }
+
+        let addrOrEns;
+        if (this.props.ens && this.props.ens[i]) {
+          addrOrEns = this.props.ens[i];
+        } else {
+          addrOrEns = this.props.addrs[i];
+        }
+
         addresses.push(
           <a id={this.props.addrs[i]} className={"address " + selected} href="#" onClick={this.props.callback}>
-            <span>{this.props.addrs[i]}</span>
+            <span>{addrOrEns}</span>
             <div class={"arrow " + selected}>---&gt;</div>
           </a>);
       }
