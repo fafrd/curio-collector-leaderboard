@@ -1,8 +1,9 @@
 import React from 'react';
-import './App.css';
 import './var.css'
+import './App.css';
 import Addresses from './Addresses.jsx'
 import Cards from './Cards.jsx'
+import Footer from './Footer.jsx'
 
 class App extends React.Component {
 
@@ -33,7 +34,7 @@ class App extends React.Component {
 
   // Given an account, fetch the holdings for this account.
   async fetchHoldingsForAccount(account) {
-    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmX5BVVFdP7bqwGKHEjUewoRPNtLv4vQgCWkoAg9wCMMJS";
+    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmeCq9tzDQ5f6TJvPS5VKFSu5AEN9gtXcM2hyMcqBGjFkH";
     let query = `{
         cardHolders(where: { id: "${account}" }) {
           id
@@ -49,7 +50,7 @@ class App extends React.Component {
 
   // Given a number (30, 29, 28...) fetch the accounts that have this many different card types collected.
   async fetchTopHolders(uniqueCardHoldings) {
-    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmX5BVVFdP7bqwGKHEjUewoRPNtLv4vQgCWkoAg9wCMMJS";
+    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmeCq9tzDQ5f6TJvPS5VKFSu5AEN9gtXcM2hyMcqBGjFkH";
     let query = `{
         cardHolders(where: { uniqueCards_in: [${uniqueCardHoldings}] }) {
           id

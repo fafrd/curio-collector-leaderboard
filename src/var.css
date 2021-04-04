@@ -1,3 +1,56 @@
+/*RESET*/
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/*VARS*/
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap');
 :root {
     /* colors */
@@ -8,13 +61,13 @@
     /* border */
     --border: 1px solid var(--red);
     /* frame */
-    --title-height: 60px;
+    --title-height: 34px;
     --main-height: calc(100vh - var(--title-height));
   }
 
-html, a, a:visited, input {
+html {
     font-weight: 600;
-    font-size: 0.9em;
+    font-size: 0.9rem;
     color: var(--red);
     background-color: var(--pink);
     text-align: center;
@@ -23,6 +76,10 @@ html, a, a:visited, input {
 body {
     font-family: Roboto Mono, monospace;
 
+}
+
+a {
+    color: var(--red);
 }
 
 a:hover {

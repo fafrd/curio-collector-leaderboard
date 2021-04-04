@@ -1,5 +1,4 @@
 import React from 'react';
-import './Cards.css';
 
 // there's probably a better way to do this
 import image1 from './images/1.jpg';
@@ -42,14 +41,39 @@ class Cards extends React.Component {
 
   render() {
     let cards = [];
-    for (let i=1; i <= 30; i++) {
-      let className = "";
-      // hide card if account doesn't have it
-      if (!this.props.holdings.find(c => c.cardNumber === i.toString())) {
-        className = "hide";
-      }
+    if (this.props.holdings.length > 0) {
+      console.log("DEBUG props.holdings: ")
+      console.log(this.props.holdings);
+      for (let i=1; i <= 30; i++) {
+        const card = this.props.holdings.find(c => c.cardNumber === i.toString());
 
-      cards.push(<span><img id={`card-${i}`} alt={`Curio${i}`} src={images[i]} className={className} /></span>);
+        let cardIsPresent = false, balance = 0;
+        console.log("for card " + i + "...")
+        if (card && card.balance != 0) {
+          console.log("ya");
+          balance = card.balance;
+          cardIsPresent = true;
+        }
+
+        if (cardIsPresent) {
+          cards.push(<span>
+              <div className="overlay-container">
+                <div className="overlay"></div>
+                <img id={`card-${i}`} alt={`Curio${i}`} src={images[i]} />
+              </div>
+              <p>{balance}x</p>
+            </span>);
+        } else {
+          cards.push(<span>
+              <div className="overlay-container">
+                <div className="overlay overlay-enabled"></div>
+                <img id={`card-${i}`} alt={`Curio${i}`} src={images[i]} className="grayscale" />
+              </div>
+              <p>{balance}x</p>
+            </span>);
+        }
+
+      }
     }
     return <div className="card-wrapper">{cards}</div>;
   }

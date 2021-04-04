@@ -3,19 +3,17 @@ html, body, #root {
 }
 
 body {
-    background-color: var(--pink);
-    font-size: 2em;
+    background-color: var(--white);
 }
 
 #root {
     margin: 0 auto;
-    max-width: 1024px;
+    max-width: 1280px;
 }
 
 .app {
     display: flex;
     text-align: initial;
-    font-size: 0.8em;
     height: var(--main-height);
 }
 
@@ -23,6 +21,8 @@ body {
 
 .title-wrapper {
     height: var(--title-height);
+    background: var(--white);
+    border: var(--border);
 }
 
 .title {
@@ -31,9 +31,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.title span {
+    align-content: center;
+    z-index: 100;
 }
 
 /* LEFT */
@@ -51,6 +50,11 @@ section header, section a {
     padding: 0.25em;
     background-color: initial;
     text-decoration: none;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: var(--title-height);
+    padding-left: 16px;
 }
 
 section header {
@@ -64,6 +68,14 @@ section a:hover {
     background: var(--pink);
 }
 
+.address {
+    display: block;
+    padding-left: 16px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
 /* RIGHT */
 
 aside {
@@ -73,20 +85,43 @@ aside {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 100px;
+    overflow: scroll;
 }
 
 aside .card-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    margin: 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 20px;
 }
 
-aside .card-wrapper span {
-    width: 20%;
-}
-
-aside .card-wrapper span img {
-    width: 80%;
-    margin: 10%;
+aside .card-wrapper img {
     border: var(--border);
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+aside span p {
+    text-align: center;
+}
+
+aside .card-wrapper img.grayscale {
+    filter: grayscale(1);
+}
+
+.overlay-container {
+    position: relative;
+}
+
+.overlay-enabled {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: var(--border);
+    mix-blend-mode: screen;
+    background-color: var(--red);
+    z-index: 10;
 }
