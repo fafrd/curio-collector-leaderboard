@@ -62,17 +62,45 @@ section header {
     background: var(--red);
     position: sticky;
     top: 0;
+    text-align: center;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-around;
 }
 
-section a:hover {
-    background: var(--pink);
+section span {
+    pointer-events: none;
 }
 
 .address {
+    position: relative;
     display: block;
     padding-left: 16px;
     display: flex;
     align-content: center;
+    align-items: center;
+}
+
+.address.selected {
+    background-color: var(--pink);
+}
+
+.arrow {
+    display: none;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 40px;
+    padding-left: 8px;
+    background-color: var(--red);
+    color: var(--white);
+    pointer-events: none;
+    font-size: 18px;
+    letter-spacing: -.2em;
+}
+
+.arrow.selected {
+    display: flex;
     align-items: center;
 }
 
@@ -85,12 +113,11 @@ aside {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 100px;
     overflow: scroll;
 }
 
 aside .card-wrapper {
-    margin: 5%;
+    margin: 5% 12%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 20px;
