@@ -1,17 +1,27 @@
-html, body, #root {
+html, body, #root, {
     height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 body {
-    background-color: var(--white);
+    background-color: var(--pink);
 }
 
 #root {
     margin: 0 auto;
-    max-width: 1280px;
+}
+
+.app-container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
 }
 
 .app {
+    width: 100%;
     display: flex;
     text-align: initial;
     height: var(--main-height);
@@ -21,8 +31,8 @@ body {
 
 .title-wrapper {
     height: var(--title-height);
+    width: 100%;
     background: var(--white);
-    border: var(--border);
 }
 
 .title {
@@ -40,7 +50,7 @@ body {
 section {
     background: var(--white);
     border: var(--border);
-    width: 50%;
+    width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -107,20 +117,25 @@ section span {
 /* RIGHT */
 
 aside {
-    background: var(--pink);
+    background: var(--white);
     border: var(--border);
-    width: 50%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: scroll;
+    overflow: auto;
 }
 
 aside .card-wrapper {
     margin: 5% 12%;
+    max-height: 90%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 20px;
+}
+
+aside .card-wrapper span:last-child {
+    margin-bottom: 1em;
 }
 
 aside .card-wrapper img {
@@ -151,4 +166,72 @@ aside .card-wrapper img.grayscale {
     mix-blend-mode: screen;
     background-color: var(--red);
     z-index: 10;
+}
+
+/* MOBILE HACKERY */
+
+@media only screen and (max-width: 900px) {
+    :root {
+         --footer-height: 0px;
+    }
+    .app {
+        flex-wrap: wrap;
+    }
+    aside {
+        order: -1;
+        height: 50%;
+    }
+    section {
+        height: 50%;
+    }
+    footer {
+        display: none;
+    }
+}
+
+/* FOOTER */
+
+footer {
+    height: var(--footer-height);
+    width: 100%;
+    background: var(--white);
+}
+
+.footer-inner {
+    border: var(--border);
+    height: calc(100% - 3px);
+}
+
+.footerart {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.footerart__wrapper {
+    height: 132px;
+}
+
+.footerart__wrapper img {
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+.footerart__wrapper.logo {
+    border-left: var(--border);
+    border-right: var(--border);
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.footerlink {
+    border-top: var(--border);
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    min-height: 32px;
 }

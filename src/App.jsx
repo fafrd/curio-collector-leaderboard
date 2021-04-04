@@ -3,7 +3,6 @@ import './var.css'
 import './App.css';
 import Addresses from './Addresses.jsx'
 import Cards from './Cards.jsx'
-import Footer from './Footer.jsx'
 
 class App extends React.Component {
 
@@ -84,7 +83,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
+      <div className="app-container">
         <div className="title-wrapper">
           <header className="title">Curio Card Collections</header>
         </div>
@@ -119,7 +118,7 @@ class App extends React.Component {
           </aside>
 
         </div>
-      </>
+      </div>
     );
   }
 }
