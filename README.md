@@ -1,9 +1,9 @@
 # Curio Cards Leaderboard
 
-Leaderboard for the top [https://curio.cards](curio.cards) holders. Curio Cards is an early NFT-like project on Ethereum- think trading cards on a blockchain.
+Leaderboard for the top [curio.cards](https://curio.cards) holders. Curio Cards is an early NFT-like project on Ethereum- think trading cards on a blockchain.
 
 View the site:
-### [https://leaderboard.curio.cards](leaderbaord.curio.cards)
+### [leaderboard.curio.cards](https://leaderbaord.curio.cards)
 
 ## Developing
 
