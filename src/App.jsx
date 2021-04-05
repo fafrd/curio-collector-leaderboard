@@ -138,7 +138,7 @@ class App extends React.Component {
     return (
       <div className="app-container">
         <div className="title-wrapper">
-          <header className="title">Curio Card Collections</header>
+          <header className="title">Curio Card Leaderboard</header>
         </div>
         <div className="app">
 
