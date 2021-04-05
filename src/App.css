@@ -102,8 +102,9 @@ nav span {
     height: 100%;
     width: 40px;
     padding-left: 8px;
-    background-color: var(--red);
-    color: var(--white);
+    border-left: 2px solid var(--red);
+    background-color: var(--pink);
+    color: var(--red);
     pointer-events: none;
     font-size: 18px;
     letter-spacing: -.2em;
