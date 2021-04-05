@@ -47,7 +47,7 @@ body {
 
 /* LEFT */
 
-section {
+nav {
     background: var(--white);
     border: var(--border);
     width: 100%;
@@ -55,7 +55,7 @@ section {
     overflow-x: hidden;
 }
 
-section header, section a {
+nav header, nav a {
     border: var(--border);
     padding: 0.25em;
     background-color: initial;
@@ -67,7 +67,7 @@ section header, section a {
     padding-left: 16px;
 }
 
-section header {
+nav header {
     color: var(--white);
     background: var(--red);
     position: sticky;
@@ -78,7 +78,7 @@ section header {
     justify-content: space-around;
 }
 
-section span {
+nav span {
     pointer-events: none;
 }
 
@@ -168,6 +168,18 @@ aside .card-wrapper img.grayscale {
     z-index: 10;
 }
 
+.select-address {
+    display: flex;
+    flex-direction: column;
+}
+
+.select-address p {
+    width: 220px;
+    text-align: center;
+    margin-top: 16px;
+    line-height: 130%;
+}
+
 /* MOBILE HACKERY */
 
 @media only screen and (max-width: 900px) {
@@ -181,7 +193,7 @@ aside .card-wrapper img.grayscale {
         order: -1;
         height: 50%;
     }
-    section {
+    nav {
         height: 50%;
     }
     footer {

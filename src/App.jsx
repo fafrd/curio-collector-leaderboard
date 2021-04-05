@@ -3,6 +3,7 @@ import './var.css'
 import './App.css';
 import Addresses from './Addresses.jsx'
 import Cards from './Cards.jsx'
+import selectAddress from './images/Select-Collection.svg'
 
 class App extends React.Component {
 
@@ -135,6 +136,16 @@ class App extends React.Component {
       addrs.push(<Addresses addrs={this.state.addresses[i]} ens={this.state.ens[i]} selected={this.state.selected} title={i} callback={(e) => { this.addressCallback(e) }} />);
     }
 
+    let cardElement;
+    if (this.state.holdings.length > 0) {
+      cardElement = <Cards holdings={this.state.holdings}/>;
+    } else {
+      cardElement = <div class="select-address">
+          <img alt="Click addresses in the nav to see their card holdings" src={selectAddress} />
+          <p>Select an address to view its Curio collection</p>
+        </div>
+    }
+
     return (
       <div className="app-container">
         <div className="title-wrapper">
@@ -142,12 +153,12 @@ class App extends React.Component {
         </div>
         <div className="app">
 
-          <section>
+          <nav>
             {addrs}
-          </section>
+          </nav>
 
           <aside>
-            <Cards holdings={this.state.holdings}/>
+            {cardElement}
           </aside>
 
         </div>

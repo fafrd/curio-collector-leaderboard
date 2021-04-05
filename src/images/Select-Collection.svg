@@ -1,0 +1,42 @@
+<svg width="197" height="124" viewBox="0 0 197 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="197" height="124">
+<rect width="197" height="124" fill="#C4C4C4"/>
+</mask>
+<g mask="url(#mask0)">
+<rect x="0.5" y="0.5" width="196" height="123" rx="5.5" fill="white" stroke="#F24645"/>
+<path d="M152.5 0.5L191 0.5C194.038 0.5 196.5 2.96243 196.5 6V118C196.5 121.038 194.038 123.5 191 123.5H152.5V0.5Z" fill="#FFECEC" stroke="#F24645"/>
+<path d="M6 0.5L44.5 0.5L44.5 123.5H6C2.96243 123.5 0.5 121.038 0.5 118L0.5 6C0.5 2.96244 2.96243 0.5 6 0.5Z" fill="#FFECEC" stroke="#F24645"/>
+<rect x="0.5" y="0.5" width="196" height="123" rx="5.5" stroke="#F24645"/>
+</g>
+<rect x="44.5" y="0.5" width="53.5" height="123" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="0.5" width="53.5" height="8" fill="#F24645" stroke="#F24645"/>
+<rect x="44.5" y="8.5" width="53.5" height="8" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="16.5" width="53.5" height="8" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="24.5" width="53.5" height="9" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="33.5" width="53.5" height="8" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="41.5" width="53.5" height="8" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="49.5" width="53.5" height="8" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="57.5" width="53.5" height="9" fill="#F24645" stroke="#F24645"/>
+<rect x="44.5" y="65.5" width="53.5" height="9" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="74.5" width="53.5" height="8" fill="#FFECEC" stroke="#F24645"/>
+<rect x="44.5" y="82.5" width="53.5" height="8" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="90.5" width="53.5" height="8" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="98.5" width="53.5" height="9" fill="white" stroke="#F24645"/>
+<rect x="44.5" y="107.5" width="53.5" height="8" fill="#F24645" stroke="#F24645"/>
+<rect x="44.5" y="115.5" width="53.5" height="8" fill="white" stroke="#F24645"/>
+<g filter="url(#filter0_d)">
+<path d="M92 76.5903V92.6053L95.2245 89.4739L97.4795 94.8146L101.084 93.2796L98.9841 88.2093H103.591L92 76.5903Z" fill="white"/>
+</g>
+<path d="M93 90.1856V78.9976L101.165 87.1806H97.4712L99.751 92.5991L97.907 93.3731L95.5373 87.7363L93 90.1856Z" fill="#F24645"/>
+<defs>
+<filter id="filter0_d" x="89" y="74.5903" width="17.591" height="24.2243" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="1.5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.94902 0 0 0 0 0.27451 0 0 0 0 0.270588 0 0 0 0.6 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+</defs>
+</svg>
