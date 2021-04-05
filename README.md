@@ -5,6 +5,12 @@ Leaderboard for the top [curio.cards](https://curio.cards) holders. Curio Cards 
 View the site:
 ### [leaderboard.curio.cards](https://leaderbaord.curio.cards)
 
+## How it works
+
+The cool part of this project is actually the subgraph I created- [github.com/fafrd/curio-cards-subgraph](https://github.com/fafrd/curio-cards-subgraph)
+
+This uses [Graph Protcol's indexing tech](https://github.com/graphprotocol/graph-node/blob/master/docs/getting-started.md) to index the blockchain, creating a 'subgraph' of curio-specific data that can then be queried easily.
+
 ## Developing
 
 ### `yarn start`
