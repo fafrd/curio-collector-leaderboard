@@ -38,7 +38,7 @@ class App extends React.Component {
 
   // Given an account, fetch the holdings for this account.
   async fetchHoldingsForAccount(account) {
-    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmeCq9tzDQ5f6TJvPS5VKFSu5AEN9gtXcM2hyMcqBGjFkH";
+    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmVcvAq5q2ZuQYD5CpEJf1BQ2dpcDJehMqvURVnHCgF5Dw";
     let query = `{
         cardHolders(where: { id: "${account}" }) {
           id
@@ -59,7 +59,7 @@ class App extends React.Component {
 
   // Given a number (30, 29, 28...) fetch the accounts that have this many different card types collected.
   async fetchTopHolders(uniqueCardHoldings) {
-    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmeCq9tzDQ5f6TJvPS5VKFSu5AEN9gtXcM2hyMcqBGjFkH";
+    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmVcvAq5q2ZuQYD5CpEJf1BQ2dpcDJehMqvURVnHCgF5Dw";
     let query = `{
         cardHolders(where: { uniqueCards_in: [${uniqueCardHoldings}] }) {
           id
@@ -71,9 +71,9 @@ class App extends React.Component {
 
   // Given a list of addresses, return a new array with entries set to the ENS or empty string
   async fetchEns(accounts) {
-    console.log("fetching ens for accounts " + JSON.stringify(accounts));
+    console.debug("fetching ens for accounts " + JSON.stringify(accounts));
 
-    let endpoint = "https://graph.wizwar.net/subgraphs/id/Qmb5arRTXt2DJCPakb8iptE5mhVwNVZR5ZZR5Sm3QhvZa8";
+    let endpoint = "https://api.thegraph.com/subgraphs/name/ensdomains/ens";
     let query = `{
         ${accounts.map(addr => {
             return `
@@ -84,11 +84,13 @@ class App extends React.Component {
         })}
     }`;
 
+    console.debug("query: \n" + query);
+
     let res = await this.queryGraph(endpoint, query);
-    console.log(JSON.stringify(res));
+    console.debug(JSON.stringify(res));
 
     let ens = new Array(accounts.length);
-    console.log("ens.length " + ens.length)
+    console.debug("ens.length " + ens.length)
 
     for (let i = 0; i < accounts.length; i++) {
       if (res.data["addr_" + accounts[i]].length > 0) {
