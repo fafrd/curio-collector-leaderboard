@@ -38,7 +38,7 @@ class App extends React.Component {
 
   // Given an account, fetch the holdings for this account.
   async fetchHoldingsForAccount(account) {
-    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmVcvAq5q2ZuQYD5CpEJf1BQ2dpcDJehMqvURVnHCgF5Dw";
+    let endpoint = "https://api.thegraph.com/subgraphs/name/fafrd/curio-cards";
     let query = `{
         cardHolders(where: { id: "${account}" }) {
           id
@@ -59,7 +59,7 @@ class App extends React.Component {
 
   // Given a number (30, 29, 28...) fetch the accounts that have this many different card types collected.
   async fetchTopHolders(uniqueCardHoldings) {
-    let endpoint = "https://graph.wizwar.net/subgraphs/id/QmVcvAq5q2ZuQYD5CpEJf1BQ2dpcDJehMqvURVnHCgF5Dw";
+    let endpoint = "https://api.thegraph.com/subgraphs/name/fafrd/curio-cards";
     let query = `{
         cardHolders(where: { uniqueCards_in: [${uniqueCardHoldings}] }) {
           id
