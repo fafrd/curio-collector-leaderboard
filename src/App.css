@@ -76,6 +76,7 @@ nav header {
     text-transform: uppercase;
     display: flex;
     justify-content: space-around;
+    z-index: 10;
 }
 
 nav span {

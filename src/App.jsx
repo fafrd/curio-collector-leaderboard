@@ -135,14 +135,14 @@ class App extends React.Component {
   render() {
     let addrs = [];
     for (let i = 30; i >= this.addrLimit; i--) {
-      addrs.push(<Addresses addrs={this.state.addresses[i]} ens={this.state.ens[i]} selected={this.state.selected} title={i} callback={(e) => { this.addressCallback(e) }} />);
+      addrs.push(<Addresses addrs={this.state.addresses[i]} key={i} ens={this.state.ens[i]} selected={this.state.selected} title={i} callback={(e) => { this.addressCallback(e) }} />);
     }
 
     let cardElement;
     if (this.state.holdings.length > 0) {
       cardElement = <Cards holdings={this.state.holdings}/>;
     } else {
-      cardElement = <div class="select-address">
+      cardElement = <div className="select-address">
           <img alt="Click addresses in the nav to see their card holdings" src={selectAddress} />
           <p>Select an address to view its Curio collection</p>
         </div>

@@ -42,19 +42,19 @@ class Cards extends React.Component {
   render() {
     let cards = [];
     if (this.props.holdings.length > 0) {
-      console.log("DEBUG props.holdings: ")
-      console.log(this.props.holdings);
+      //console.debug("DEBUG props.holdings: ")
+      //console.debug(this.props.holdings);
       for (let i=1; i <= 30; i++) {
         const card = this.props.holdings.find(c => c.cardNumber === i.toString());
 
         let cardIsPresent = false, balance = 0;
-        if (card && card.balance != 0) {
+        if (card && card.balance !== 0) {
           balance = card.balance;
           cardIsPresent = true;
         }
 
         if (cardIsPresent) {
-          cards.push(<span>
+          cards.push(<span key={i}>
               <div className="overlay-container">
                 <div className="overlay"></div>
                 <img id={`card-${i}`} alt={`Curio${i}`} src={images[i]} />
