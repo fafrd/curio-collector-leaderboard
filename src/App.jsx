@@ -19,7 +19,7 @@ class App extends React.Component {
     this.addrLimit = 10; // show down to 10 cards held
   }
 
-  async queryGraph(endpoint, query) {
+  async postJson(endpoint, query) {
     try {
         let resp = await fetch(endpoint, {
             method: 'POST',
@@ -36,6 +36,21 @@ class App extends React.Component {
     }
   }
 
+  async getJson(endpoint) {
+    try {
+        let resp = await fetch(endpoint, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
+
+        return resp.json();
+    } catch (error) {
+        console.error('Error while fetching ENS domains:', error);
+    }
+  }
+
   // Given an account, fetch the holdings for this account.
   async fetchHoldingsForAccount(account) {
     let endpoint = "https://api.thegraph.com/subgraphs/name/fafrd/curio-cards";
@@ -48,7 +63,7 @@ class App extends React.Component {
           }
         }
       }`;
-    let res = await this.queryGraph(endpoint, query);
+    let res = await this.postJson(endpoint, query);
     try {
       return res["data"]['cardHolders'][0]["holdings"];
     } catch (e) {
@@ -65,7 +80,7 @@ class App extends React.Component {
           id
         }
       }`;
-    let res = await this.queryGraph(endpoint, query);
+    let res = await this.postJson(endpoint, query);
     return res.data.cardHolders.map(e => e.id);
   }
 
@@ -73,28 +88,16 @@ class App extends React.Component {
   async fetchEns(accounts) {
     console.debug("fetching ens for accounts " + JSON.stringify(accounts));
 
-    let endpoint = "https://api.thegraph.com/subgraphs/name/ensdomains/ens";
-    let query = `{
-        ${accounts.map(addr => {
-            return `
-                addr_${addr}: domains(where:{owner:"${addr.toLowerCase()}"}) {
-                    name
-                }
-            `;
-        })}
-    }`;
-
-    console.debug("query: \n" + query);
-
-    let res = await this.queryGraph(endpoint, query);
-    console.debug(JSON.stringify(res));
-
     let ens = new Array(accounts.length);
-    console.debug("ens.length " + ens.length)
-
     for (let i = 0; i < accounts.length; i++) {
-      if (res.data["addr_" + accounts[i]].length > 0) {
-        ens[i] = res.data["addr_" + accounts[i]][0].name;
+      let endpoint = `https://ens.fafrd.workers.dev/ens/${accounts[i]}`;
+      let res = await this.getJson(endpoint);
+      console.debug(JSON.stringify(res));
+
+      console.debug("ens.length " + ens.length)
+
+      if (res.reverseRecord) {
+        ens[i] = res.reverseRecord;
       } else {
         ens[i] = "";
       }
