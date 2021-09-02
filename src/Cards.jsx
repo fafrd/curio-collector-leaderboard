@@ -48,7 +48,7 @@ class Cards extends React.Component {
         const card = this.props.holdings.find(c => c.cardNumber === i.toString());
 
         let cardIsPresent = false, balance = 0;
-        if (card && card.balance !== 0) {
+        if (card && card.balance > 0) {
           balance = card.balance;
           cardIsPresent = true;
         }
