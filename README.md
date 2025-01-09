@@ -13,6 +13,8 @@ This uses [Graph Protcol's indexing tech](https://github.com/graphprotocol/graph
 
 ## Developing
 
+Use node 16 and yarn 1.x (yarn set version 1.22.22)
+
 ### `yarn start`
 
 Runs the app in the development mode.\

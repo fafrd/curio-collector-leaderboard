@@ -5,6 +5,8 @@ import Addresses from './Addresses.jsx'
 import Cards from './Cards.jsx'
 import selectAddress from './images/Select-Collection.svg'
 
+let GRAPH_ENDPOINT = "https://api.studio.thegraph.com/query/507/curio-cards/version/latest";
+
 class App extends React.Component {
 
   constructor(props) {
@@ -53,7 +55,6 @@ class App extends React.Component {
 
   // Given an account, fetch the holdings for this account.
   async fetchHoldingsForAccount(account) {
-    let endpoint = "https://api.thegraph.com/subgraphs/name/fafrd/curio-cards";
     let query = `{
         cardHolders(where: { id: "${account}" }) {
           id
@@ -63,7 +64,7 @@ class App extends React.Component {
           }
         }
       }`;
-    let res = await this.postJson(endpoint, query);
+    let res = await this.postJson(GRAPH_ENDPOINT, query);
     try {
       return res["data"]['cardHolders'][0]["holdings"];
     } catch (e) {
@@ -74,13 +75,12 @@ class App extends React.Component {
 
   // Given a number (30, 29, 28...) fetch the accounts that have this many different card types collected.
   async fetchTopHolders(uniqueCardHoldings) {
-    let endpoint = "https://api.thegraph.com/subgraphs/name/fafrd/curio-cards";
     let query = `{
         cardHolders(where: { uniqueCards_in: [${uniqueCardHoldings}] }) {
           id
         }
       }`;
-    let res = await this.postJson(endpoint, query);
+    let res = await this.postJson(GRAPH_ENDPOINT, query);
     return res.data.cardHolders.map(e => e.id);
   }
 
@@ -107,7 +107,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    for (let i = 30; i >= this.addrLimit; i--) {
+    for (let i = 31; i >= this.addrLimit; i--) {
       const top = await this.fetchTopHolders(i);
       let newAddresses = this.state.addresses;
       newAddresses[i] = top;
@@ -137,7 +137,7 @@ class App extends React.Component {
 
   render() {
     let addrs = [];
-    for (let i = 30; i >= this.addrLimit; i--) {
+    for (let i = 31; i >= this.addrLimit; i--) {
       addrs.push(<Addresses addrs={this.state.addresses[i]} key={i} ens={this.state.ens[i]} selected={this.state.selected} title={i} callback={(e) => { this.addressCallback(e) }} />);
     }
 
