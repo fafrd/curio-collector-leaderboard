@@ -59,8 +59,12 @@ class App extends React.Component {
         cardHolders(where: { id: "${account}" }) {
           id
           holdings {
-            cardNumber
-            balance
+            type {
+              name
+            }
+            wrappedOfficial
+            wrappedUnofficial
+            unwrapped
           }
         }
       }`;
@@ -128,6 +132,7 @@ class App extends React.Component {
   }
 
   async addressCallback(e) {
+    console.log("Address callback")
     const cardHoldings = await this.fetchHoldingsForAccount(e.target.id);
     this.setState({
       holdings: cardHoldings,
