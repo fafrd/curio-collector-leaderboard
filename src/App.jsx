@@ -121,18 +121,18 @@ class App extends React.Component {
       // asynchronously kick off ENS lookup
       (async (iter) => {
         try {
-          const ens = await this.fetchEns(this.state.addresses[iter]);
-          let newEns = this.state.ens;
-          newEns[iter] = ens;
-
-          this.setState({ens: newEns})
+          const ens = await this.fetchEns(top);
+          this.setState((prevState) => {
+            const newEns = [...prevState.ens];
+            newEns[iter] = ens;
+            return { ens: newEns };
+          });
         } catch (e) { console.warn("Error when fetching ENS", e); }
       })(i);
     }
   }
 
   async addressCallback(e) {
-    console.log("Address callback")
     const cardHoldings = await this.fetchHoldingsForAccount(e.target.id);
     this.setState({
       holdings: cardHoldings,
