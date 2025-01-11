@@ -7,17 +7,10 @@ class Addresses extends React.Component {
     if (this.props.addrs && this.props.addrs.length > 0) {
       addresses.push(<header key={this.props.title}>{this.props.title} Card Addresses</header>);
       for (let i = 0; i < this.props.addrs.length; i++) {
-        let selected = "";
-        if (this.props.selected === this.props.addrs[i]) {
-          selected = "selected";
-        }
+        const address = this.props.addrs[i];
+        const selected = this.props.selected === address ? "selected" : "";
 
-        let addrOrEns;
-        if (this.props.ens && this.props.ens[i]) {
-          addrOrEns = this.props.ens[i];
-        } else {
-          addrOrEns = this.props.addrs[i];
-        }
+        const addrOrEns = this.props.ens[address] || address;
 
         addresses.push(
           <a id={this.props.addrs[i]} key={this.props.addrs[i]} className={"address " + selected} href="#" onClick={this.props.callback}>
