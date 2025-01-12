@@ -6,6 +6,7 @@ import Cards from './Cards.jsx'
 import selectAddress from './images/Select-Collection.svg'
 
 let GRAPH_ENDPOINT = "https://api.studio.thegraph.com/query/507/curio-cards/version/latest";
+let ENS_ENDPOINT = "https://ens.kianbradley.com"
 
 class App extends React.Component {
   constructor(props) {
@@ -96,7 +97,7 @@ class App extends React.Component {
 
     while (this.ensQueue.length > 0) {
       const address = this.ensQueue.shift();
-      const endpoint = `https://ens.fafrd.workers.dev/ens/${address}?mode=fast`;
+      const endpoint = `${ENS_ENDPOINT}/ens/${address}?mode=fast`;
 
       try {
         const res = await this.getJson(endpoint);
