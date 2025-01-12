@@ -96,7 +96,7 @@ class App extends React.Component {
 
     while (this.ensQueue.length > 0) {
       const address = this.ensQueue.shift();
-      const endpoint = `https://ens.fafrd.workers.dev/ens/${address}`;
+      const endpoint = `https://ens.fafrd.workers.dev/ens/${address}?mode=fast`;
 
       try {
         const res = await this.getJson(endpoint);
