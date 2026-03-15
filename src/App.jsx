@@ -1,31 +1,25 @@
-import React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './var.css'
 import './App.css';
 import Addresses from './Addresses.jsx'
 import Cards from './Cards.jsx'
 import selectAddress from './images/Select-Collection.svg'
 
-let GRAPH_ENDPOINT = "https://api.studio.thegraph.com/query/507/curio-cards/version/latest";
-let ENS_ENDPOINT = "https://ens.kianbradley.com"
+const GRAPH_ENDPOINT = import.meta.env.VITE_GRAPH_ENDPOINT;
+const ENS_ENDPOINT = import.meta.env.VITE_ENS_ENDPOINT;
+const ADDR_LIMIT = 10;
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+function App() {
+  const [addresses, setAddresses] = useState([]);
+  const [holdings, setHoldings] = useState([]);
+  const [ens, setEns] = useState({});
+  const [selected, setSelected] = useState(null);
+  const ensQueue = useRef([]);
+  const processingEns = useRef(false);
 
-    this.state = {
-      addresses: [],
-      holdings: [],
-      ens: {}
-    };
-
-    this.addrLimit = 10; // show down to 10 cards held
-    this.ensQueue = [];
-    this.processingEns = false;
-  }
-
-  async postJson(endpoint, query) {
+  async function postJson(endpoint, query) {
     try {
-      let resp = await fetch(endpoint, {
+      const resp = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,31 +27,28 @@ class App extends React.Component {
         },
         body: JSON.stringify({ query }),
       });
-
       return resp.json();
     } catch (error) {
       console.error('Error while querying Graph node:', error);
     }
   }
 
-  async getJson(endpoint) {
+  async function getJson(endpoint) {
     try {
-      let resp = await fetch(endpoint, {
+      const resp = await fetch(endpoint, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
         },
       });
-
       return resp.json();
     } catch (error) {
       console.error('Error while fetching ENS domains:', error);
     }
   }
 
-  // Given an account, fetch the holdings for this account.
-  async fetchHoldingsForAccount(account) {
-    let query = `{
+  async function fetchHoldingsForAccount(account) {
+    const query = `{
         cardHolders(where: { id: "${account}" }) {
           id
           holdings {
@@ -70,7 +61,7 @@ class App extends React.Component {
           }
         }
       }`;
-    let res = await this.postJson(GRAPH_ENDPOINT, query);
+    const res = await postJson(GRAPH_ENDPOINT, query);
     try {
       return res["data"]['cardHolders'][0]["holdings"];
     } catch (e) {
@@ -79,104 +70,108 @@ class App extends React.Component {
     }
   }
 
-  // Given a number (30, 29, 28...) fetch the accounts that have this many different card types collected.
-  async fetchTopHolders(uniqueCardHoldings) {
-    let query = `{
+  async function fetchTopHolders(uniqueCardHoldings) {
+    const query = `{
         cardHolders(where: { uniqueCards_in: [${uniqueCardHoldings}] }) {
           id
         }
       }`;
-    let res = await this.postJson(GRAPH_ENDPOINT, query);
+    const res = await postJson(GRAPH_ENDPOINT, query);
     return res.data.cardHolders.map((e) => e.id);
   }
 
-  // Process ENS lookups based on a queue.
-  async fetchEnsForQueue() {
-    if (this.processingEns || this.ensQueue.length === 0) return;
-    this.processingEns = true;
+  async function fetchEnsForQueue() {
+    if (processingEns.current || ensQueue.current.length === 0) return;
+    processingEns.current = true;
 
-    while (this.ensQueue.length > 0) {
-      const address = this.ensQueue.shift();
+    while (ensQueue.current.length > 0) {
+      const address = ensQueue.current.shift();
       const endpoint = `${ENS_ENDPOINT}/ens/${address}?mode=fast`;
 
       try {
-        const res = await this.getJson(endpoint);
+        const res = await getJson(endpoint);
         const ensName = res.reverseRecord || "";
 
         console.log("ENS for address", address, "is", ensName);
-        this.setState((prevState) => ({
-          ens: {
-            ...prevState.ens,
-            [address]: ensName,
-          },
-        }));
+        setEns((prev) => ({ ...prev, [address]: ensName }));
       } catch (e) {
         console.warn("Error when fetching ENS for address:", address, e);
       }
     }
 
-    this.processingEns = false;
+    processingEns.current = false;
   }
 
-  enqueueEnsLookup(addresses) {
-    this.ensQueue.push(...addresses);
-    this.fetchEnsForQueue();
+  function enqueueEnsLookup(addrs) {
+    ensQueue.current.push(...addrs);
+    fetchEnsForQueue();
   }
 
-  async componentDidMount() {
-    for (let i = 31; i >= this.addrLimit; i--) {
-      const top = await this.fetchTopHolders(i);
+  useEffect(() => {
+    async function load() {
+      for (let i = 31; i >= ADDR_LIMIT; i--) {
+        const top = await fetchTopHolders(i);
 
-      this.setState((prevState) => {
-        const newAddresses = [...prevState.addresses];
-        newAddresses[i] = top;
-        return { addresses: newAddresses };
-      });
+        setAddresses((prev) => {
+          const next = [...prev];
+          next[i] = top;
+          return next;
+        });
 
-      this.enqueueEnsLookup(top);
-    }
-  }
-
-  async addressCallback(e) {
-    const cardHoldings = await this.fetchHoldingsForAccount(e.target.id);
-    this.setState({
-      holdings: cardHoldings,
-      selected: e.target.id,
-    });
-  }
-
-  render() {
-    const addrs = [];
-    for (let i = 31; i >= this.addrLimit; i--) {
-      addrs.push(<Addresses addrs={this.state.addresses[i]} key={i} ens={this.state.ens} selected={this.state.selected} title={i} callback={(e) => { this.addressCallback(e) }} />);
+        enqueueEnsLookup(top);
+      }
     }
 
-    let cardElement;
-    if (this.state.holdings.length > 0) {
-      cardElement = <Cards holdings={this.state.holdings}/>;
-    } else {
-      cardElement = <div className="select-address">
-          <img alt="Click addresses in the nav to see their card holdings" src={selectAddress} />
-          <p>Select an address to view its Curio collection</p>
-        </div>
-    }
+    load();
+  }, []);
 
-    return (
-      <div className="app-container">
-        <div className="title-wrapper">
-          <header className="title">Curio Card Leaderboard</header>
-        </div>
-        <div className="app">
-          <nav>
-            {addrs}
-          </nav>
-          <aside>
-            {cardElement}
-          </aside>
-        </div>
+  async function addressCallback(e) {
+    const cardHoldings = await fetchHoldingsForAccount(e.target.id);
+    setHoldings(cardHoldings);
+    setSelected(e.target.id);
+  }
+
+  const addrs = [];
+  for (let i = 31; i >= ADDR_LIMIT; i--) {
+    addrs.push(
+      <Addresses
+        addrs={addresses[i]}
+        key={i}
+        ens={ens}
+        selected={selected}
+        title={i}
+        callback={(e) => addressCallback(e)}
+      />
+    );
+  }
+
+  let cardElement;
+  if (holdings.length > 0) {
+    cardElement = <Cards holdings={holdings} />;
+  } else {
+    cardElement = (
+      <div className="select-address">
+        <img alt="Click addresses in the nav to see their card holdings" src={selectAddress} />
+        <p>Select an address to view its Curio collection</p>
       </div>
     );
   }
+
+  return (
+    <div className="app-container">
+      <div className="title-wrapper">
+        <header className="title">Curio Card Leaderboard</header>
+      </div>
+      <div className="app">
+        <nav>
+          {addrs}
+        </nav>
+        <aside>
+          {cardElement}
+        </aside>
+      </div>
+    </div>
+  );
 }
 
 export default App;

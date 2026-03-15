@@ -1,4 +1,4 @@
-html, body, #root, {
+html, body, #root {
     height: 100%;
     width: 100%;
     display: flex;
@@ -55,7 +55,7 @@ nav {
     overflow-x: hidden;
 }
 
-nav header, nav a {
+nav header, nav a, nav button {
     border: var(--border);
     padding: 0.25em;
     background-color: initial;
@@ -65,6 +65,16 @@ nav header, nav a {
     align-items: center;
     height: var(--title-height);
     padding-left: 16px;
+}
+
+nav button {
+    cursor: pointer;
+    border-radius: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
 }
 
 nav header {
