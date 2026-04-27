@@ -8,6 +8,7 @@ import selectAddress from './images/Select-Collection.svg'
 const GRAPH_ENDPOINT = import.meta.env.VITE_GRAPH_ENDPOINT;
 const ENS_ENDPOINT = import.meta.env.VITE_ENS_ENDPOINT;
 const ADDR_LIMIT = 10;
+const PAGE_SIZE = 1000;
 
 function App() {
   const [addresses, setAddresses] = useState([]);
@@ -27,7 +28,11 @@ function App() {
         },
         body: JSON.stringify({ query }),
       });
-      return resp.json();
+      const json = await resp.json();
+      if (json.errors) {
+        throw new Error(JSON.stringify(json.errors));
+      }
+      return json;
     } catch (error) {
       console.error('Error while querying Graph node:', error);
     }
@@ -70,14 +75,71 @@ function App() {
     }
   }
 
-  async function fetchTopHolders(uniqueCardHoldings) {
+  async function fetchPositiveBalances(skip) {
     const query = `{
-        cardHolders(where: { uniqueCards_in: [${uniqueCardHoldings}] }) {
+        cardBalances(
+          first: ${PAGE_SIZE}
+          skip: ${skip}
+          where: {
+            or: [
+              { unwrapped_gt: 0 }
+              { wrappedOfficial_gt: 0 }
+              { wrappedUnofficial_gt: 0 }
+            ]
+          }
+        ) {
           id
+          user {
+            id
+          }
+          type {
+            id
+          }
+          unwrapped
+          wrappedOfficial
+          wrappedUnofficial
         }
       }`;
     const res = await postJson(GRAPH_ENDPOINT, query);
-    return res.data.cardHolders.map((e) => e.id);
+    return res.data.cardBalances;
+  }
+
+  async function fetchLeaderboardAddresses() {
+    const uniqueCardsByHolder = {};
+
+    for (let skip = 0; ; skip += PAGE_SIZE) {
+      const balances = await fetchPositiveBalances(skip);
+      if (!balances || balances.length === 0) break;
+
+      for (const balance of balances) {
+        const total =
+          Number(balance.unwrapped) +
+          Number(balance.wrappedOfficial) +
+          Number(balance.wrappedUnofficial);
+        if (total <= 0) continue;
+
+        const holder = balance.user.id;
+        if (!uniqueCardsByHolder[holder]) {
+          uniqueCardsByHolder[holder] = new Set();
+        }
+        uniqueCardsByHolder[holder].add(balance.type.id);
+      }
+
+      if (balances.length < PAGE_SIZE) break;
+    }
+
+    const addressesByUniqueCards = [];
+    for (const holder of Object.keys(uniqueCardsByHolder)) {
+      const uniqueCards = uniqueCardsByHolder[holder].size;
+      if (uniqueCards >= ADDR_LIMIT) {
+        if (!addressesByUniqueCards[uniqueCards]) {
+          addressesByUniqueCards[uniqueCards] = [];
+        }
+        addressesByUniqueCards[uniqueCards].push(holder);
+      }
+    }
+
+    return addressesByUniqueCards;
   }
 
   async function fetchEnsForQueue() {
@@ -109,16 +171,11 @@ function App() {
 
   useEffect(() => {
     async function load() {
+      const leaderboardAddresses = await fetchLeaderboardAddresses();
+      setAddresses(leaderboardAddresses);
+
       for (let i = 31; i >= ADDR_LIMIT; i--) {
-        const top = await fetchTopHolders(i);
-
-        setAddresses((prev) => {
-          const next = [...prev];
-          next[i] = top;
-          return next;
-        });
-
-        enqueueEnsLookup(top);
+        enqueueEnsLookup(leaderboardAddresses[i] || []);
       }
     }
 
