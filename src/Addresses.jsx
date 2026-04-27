@@ -12,7 +12,7 @@ function Addresses({ addrs, ens, selected, title, callback }) {
             id={address}
             key={address}
             className={"address " + (isSelected ? "selected" : "")}
-            onClick={callback}
+            onClick={() => callback(address)}
           >
             <span>{addrOrEns}</span>
             <div className={"arrow " + (isSelected ? "selected" : "")}>---&gt;</div>

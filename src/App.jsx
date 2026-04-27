@@ -182,10 +182,10 @@ function App() {
     load();
   }, []);
 
-  async function addressCallback(e) {
-    const cardHoldings = await fetchHoldingsForAccount(e.target.id);
+  async function addressCallback(address) {
+    const cardHoldings = await fetchHoldingsForAccount(address);
     setHoldings(cardHoldings);
-    setSelected(e.target.id);
+    setSelected(address);
   }
 
   const addrs = [];
@@ -197,7 +197,7 @@ function App() {
         ens={ens}
         selected={selected}
         title={i}
-        callback={(e) => addressCallback(e)}
+        callback={addressCallback}
       />
     );
   }
